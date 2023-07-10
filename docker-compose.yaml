@@ -1,0 +1,49 @@
+version: "3.0"
+services:
+    
+  nifi_docker:
+    image: apache/nifi:latest
+    container_name: nifi_docker  
+    restart: always
+    container_name: nifi_docker
+    external_links:
+      - api_docker:api_docker
+    ports:
+      - 8181:8181
+      - 4567:4567
+    environment:
+      - NIFI_WEB_HTTP_PORT=8181
+    #volumes:
+     # - ./file_folder:/file_folder
+  api_docker:
+    build: .
+    container_name: api_docker  
+    volumes:
+     
+      - ./app:/app
+    ports:
+      - 8000:80
+    depends_on:
+      - postgres_db
+      - nifi_docker
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_USER=fastapi_server
+      - POSTGRES_PASSWORD=fastapi_server
+      - POSTGRES_DB=postgres_db
+    networks:
+      - app_network 
+
+networks:
+  app_network:
+    driver: bridge
+volumes:
+  postgres_data:
+
+  
