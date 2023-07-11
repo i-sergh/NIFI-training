@@ -18,4 +18,4 @@ COPY ./app /app
 
 WORKDIR /app/src
 
-CMD uvicorn src.main:app --host 0.0.0.0 --port 80 --reload --reload-dir /src
+CMD [ "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "80", "--reload", , "--reload-dir", "/src"]
