@@ -5,21 +5,21 @@ services:
   image: apache/nifi:latest
   container_name: nifi_docker  
   restart: always
-  container_name: nifi_docker
   external_links:
    - api_docker:api_docker
   ports:
    - 8181:8181
-   - 4567:4567
   environment:
    - NIFI_WEB_HTTP_PORT=8181
  api_docker:
-  build: .
+  build:
+    context: .
+    dockerfile: api_docker/Dockerfile 
   container_name: api_docker  
   volumes:    
-   - ./app:/app
+   - api_data:/app
   ports:
-   - 8000:80
+   - 8778:80
   depends_on:
    - postgres_db
    - nifi_docker
@@ -42,5 +42,6 @@ networks:
   driver: bridge
 volumes:
  postgres_data:
+ api_data:
 
   

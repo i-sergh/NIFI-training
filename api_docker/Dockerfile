@@ -11,10 +11,10 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install dependencies
-COPY requirements.txt .
+COPY api_docker/requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY ./app /app 
+COPY api_docker/app /app 
 
 WORKDIR /app/src
 
